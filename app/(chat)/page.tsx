@@ -62,10 +62,7 @@ const HomePage = () => {
 
   useEffect(() => {
     router.replace("/")
-    socket.current = io(process.env.NEXT_PUBLIC_SOCKET_URL, {
-      transports: ["websocket"],
-      secure: true,
-    })
+    socket.current = io(process.env.NEXT_PUBLIC_SOCKET_URL)
   }, [])
 
   const { data: myContacts, isPending: isLoading } = useGetContacts()
