@@ -62,7 +62,10 @@ const HomePage = () => {
 
   useEffect(() => {
     router.replace("/")
-    socket.current = io(process.env.NEXT_PUBLIC_SOCKET_URL)
+    socket.current = io(process.env.NEXT_PUBLIC_SOCKET_URL, {
+      transports: ['websocket', 'polling'],
+      withCredentials: true,
+    })
   }, [])
 
   const { data: myContacts, isPending: isLoading } = useGetContacts()
