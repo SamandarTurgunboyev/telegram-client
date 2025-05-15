@@ -36,7 +36,7 @@ interface GetSoketType {
 const HomePage = () => {
   const { data: session } = useSession()
   const [contacts, setContacts] = useState<IUser[]>([])
-  const [messages, setMessages] = useState<IMessage[]>([])  
+  const [messages, setMessages] = useState<IMessage[]>([])
   const { setCreating, selOnlineUser, setLoadMessage, setIsTypeng } = useLoading()
   const { currentContact, message, setMessage } = useCorrentContact()
   const playSound = useAudio()
@@ -62,7 +62,7 @@ const HomePage = () => {
 
   useEffect(() => {
     router.replace("/")
-    socket.current = io("ws://localhost:5000")
+    socket.current = io(process.env.NEXT_PUBLIC_SOCKET_URL)
   }, [])
 
   const { data: myContacts, isPending: isLoading } = useGetContacts()
@@ -115,8 +115,8 @@ const HomePage = () => {
         })
       })
       socket.current?.on("getNewMessage", ({ newMessage, receiver, sender }: GetSoketType) => {
-        console.log("newMessage socket",newMessage);
-        
+        console.log("newMessage socket", newMessage);
+
         setIsTypeng("")
         if (CONTACT_ID === sender._id) {
           setMessages((prev) => [...prev, newMessage])
@@ -339,7 +339,7 @@ const HomePage = () => {
         {currentContact?._id && (
           <div className='w-full relative'>
             {/* Top chat  */}
-            <TopChat messages={messages}/>
+            <TopChat messages={messages} />
 
             {/* chat message */}
             <Chat
